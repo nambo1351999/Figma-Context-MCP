@@ -78,6 +78,8 @@ export interface SimplifiedNode {
   // for rect-specific strokes, etc.
   // children
   children?: SimplifiedNode[];
+  // variable modes
+  explicitVariableModes?: Record<string, string>;
 }
 
 export interface BoundingBox {
@@ -191,6 +193,11 @@ function parseNode(
     name,
     type,
   };
+
+  // Add explicitVariableModes if present
+  if (hasValue("explicitVariableModes", n)) {
+    simplified.explicitVariableModes = n.explicitVariableModes;
+  }
 
   // text
   if (hasValue("style", n) && Object.keys(n.style).length) {
